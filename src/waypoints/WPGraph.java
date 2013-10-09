@@ -87,7 +87,7 @@ public class WPGraph extends DGraphAdj<Vertex, WPEdge> {
 				}
 			}
 		}
-		//printMatrix(d);
+		printMatrix(d);
 	}
 
 	/* Your dynamic programming solution to Question 2 */

@@ -14,7 +14,9 @@ public class WaypointsTest {
 	 * account way points. 
 	 */
 	public static void main(String[] args) {
-		WPGraph G = readWPG(args[0]);
+		//String testFile = args[0];
+		String testFile = "src/waypoints/sample.txt";
+		WPGraph G = readWPG(testFile);
 		// modifyGraph(G);
 		G.allPairsShortestPaths();
 		G.SPWP();
