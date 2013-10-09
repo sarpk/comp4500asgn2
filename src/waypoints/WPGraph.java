@@ -93,6 +93,21 @@ public class WPGraph extends DGraphAdj<Vertex, WPEdge> {
 	/* Your dynamic programming solution to Question 2 */
 	public void SPWP() {
 		// Your final output should follow this format:
+		int pureCost = d[0][d[0].length-1];
+		//determine the path
+		int prevCost = inf;
+		int edgeSrc = inf;
+		for(int i = 0; i < d[0].length; i++) {
+			WPEdge e = getEdge(i,5);
+			if (e != null) {
+				System.out.println(e + " " + e.getWeight() + " " + d[0][i]);
+				if(prevCost > d[0][i]) {
+					prevCost = d[0][i];
+					edgeSrc = i;
+				}
+			}
+		}
+		System.out.println(prevCost + " " + edgeSrc);
 		// System.out.println("Least final cost is " + ??? + ", visiting " + ??? + " waypoint(s) on a path with pure cost " + ???);
 	}
 
