@@ -92,11 +92,43 @@ public class WPGraph extends DGraphAdj<Vertex, WPEdge> {
 
 	/* Your dynamic programming solution to Question 2 */
 	public void SPWP() {
+		
+		/*asd
+		shortestPath(destinationNode, minAmount) 
+		
+			if(destinationNode == srcNode && minAmount < 1) 
+				return 0;
+			
+			else if(destinationNode == srcNode && minAmount > 1) 
+				return INFINITY
+			
+			Initialise Node Queue q
+			int destNo = destinationNode get number
+			int cost = INFINITY
+			for (int i = 0; i < destNo; i++)
+				if (d[i][destNo] != null) 
+					int minimumAmountCount = minAmount;
+					for (int j = 0; j < marked.length(); j++) 
+						if (marked[j] == i) 
+							minimumAmountCount = minimumAmountCount - 1;
+						
+					cost = MIN(cost, shortestPath(Node(i), minimumAmountCount);
+					
+			return cost;
+		
+		
+		shortestPath(lastNode, 5);
+		*/
 		// Your final output should follow this format:
 		int pureCost = d[0][d[0].length-1];
 		//determine the path
 		int prevCost = inf;
 		int edgeSrc = inf;
+		Vertex v = getVertex(4);
+		for (WPEdge ver : this.adjacent(v)) {
+			System.out.println(ver + " " + wps[0]);
+		}
+		
 		for(int i = 0; i < d[0].length; i++) {
 			WPEdge e = getEdge(i,5);
 			if (e != null) {
