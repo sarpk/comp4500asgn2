@@ -89,20 +89,97 @@ public class WPGraph extends DGraphAdj<Vertex, WPEdge> {
 		}
 		printMatrix(d);
 	}
+	
+	private int leastCost2(Vertex sourceV, int minAmount) {
+		int cost = inf;
+		
+		Vertex destinationV = getVertex(d[0].length-1);
+		if(destinationV == sourceV && minAmount < 1 ) {
+			return 0;
+		}
+		else if(destinationV == sourceV && minAmount > 1 ) {
+			return cost;
+		}
+		for (WPEdge e : this.adjacent(sourceV)) {
+			int countMinAm = minAmount;
+			for(int w : wps) { 
+				if (w == sourceV.getIndex()) {
+					countMinAm--;
+				}
+			}
+			int pathCost = add(leastCost2(e.getDestination(), countMinAm),e.getWeight());
+			cost = Math.min(cost, pathCost);
+		}
+		return cost;
+	}
+	
+	private int leastCost(Vertex destinationV, int minAmount) {
+		Vertex sourceV = getVertex(0);
+		if(destinationV == sourceV && minAmount < 1 ) {
+			return 0;
+		}
+		else if(destinationV == sourceV && minAmount > 1 ) {
+			return inf;
+		}
+		
+		int destNo = destinationV.getIndex();
+		int cost = inf;
+		
+		for(int i = 0; i < destNo; i++) {
+			if(d[i][destNo] != inf) {
+				int countMinAm = minAmount;
+				for(int w : wps) { 
+					if (w == i) {
+						countMinAm--;
+					}
+				}
+				int pathCost = add(leastCost(this.getVertex(i), countMinAm),d[i][destNo]);
+				cost = Math.min(cost, pathCost);
+			}
+		}
+		return cost;
+	}
+	
+	
+	private int leastCost3(Vertex destinationV, int minAmount) {
+		Vertex sourceV = getVertex(0);
+		Vertex firstWp = getVertex(wps[0]);
+		if(destinationV == sourceV && minAmount < 1 ) {
+			return 0;
+		}
+		else if((destinationV == sourceV || destinationV == firstWp)  && minAmount > 1 ) {
+			return inf;
+		}
+		else if(destinationV == firstWp && minAmount < 1 ) {
+			return d[0][wps[0]];
+		}
+		
+		int destNo = destinationV.getIndex();
+		int cost = inf;
+		
+		for (int w : wps) {
+			int countMinAm = minAmount;
+			if (w < destNo) {
+				countMinAm--;
+				int pathCost = add(leastCost(this.getVertex(w), countMinAm),d[w][destNo]);
+				cost = Math.min(cost, pathCost);
+			}
+		}
 
+		return cost;
+	}
+	
 	/* Your dynamic programming solution to Question 2 */
 	public void SPWP() {
-		
 		/*asd
 		shortestPath(destinationNode, minAmount) 
-		
+			srcNode = getVertex(0);
 			if(destinationNode == srcNode && minAmount < 1) 
 				return 0;
 			
 			else if(destinationNode == srcNode && minAmount > 1) 
 				return INFINITY
 			
-			Initialise Node Queue q
 			int destNo = destinationNode get number
 			int cost = INFINITY
 			for (int i = 0; i < destNo; i++)
@@ -119,12 +196,27 @@ public class WPGraph extends DGraphAdj<Vertex, WPEdge> {
 		
 		shortestPath(lastNode, 5);
 		*/
+		
+		int cost = leastCost(getVertex(d[0].length-1), 1);
+		System.out.println("The cost is " + cost);
+		
+		cost = leastCost2(getVertex(0), 1);
+		System.out.println("The cost2 is " + cost);
+		
+		cost = leastCost3(getVertex(d[0].length-1), 1);
+		System.out.println("The cost3 is " + cost);
+		
+		for(int i: wps) {
+			Vertex waypoint = this.getVertex(i);
+			//if(waypoint.getIndex() == d.length-1) { continue;}
+			System.out.println(waypoint + " begin with " + d[0][i]+ " to end "+ d[i][d[0].length-1]);
+		}
 		// Your final output should follow this format:
 		int pureCost = d[0][d[0].length-1];
 		//determine the path
 		int prevCost = inf;
 		int edgeSrc = inf;
-		Vertex v = getVertex(4);
+		Vertex v = getVertex(0);
 		for (WPEdge ver : this.adjacent(v)) {
 			System.out.println(ver + " " + wps[0]);
 		}
