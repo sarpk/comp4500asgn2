@@ -1,4 +1,7 @@
-4
-Waypoints 1 2
-Path 0 1
-Path 2 3
+3
+Waypoints 1
+Path 0 1 2
+Path 0 2
+Weight 0 1 6
+Weight 1 2 6
+Weight 0 2 11

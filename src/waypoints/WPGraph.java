@@ -92,52 +92,55 @@ public class WPGraph extends DGraphAdj<Vertex, WPEdge> {
 				}
 			}
 		}
-		//printMatrix(d);
+		// printMatrix(d);
 	}
-
 
 	/* Your dynamic programming solution to Question 2 */
 	public void SPWP() {
 
-		//initialise 2d array for waypoint source to minimum amount of waypoint matrix
+		// initialise 2d array for waypoint source to minimum amount of waypoint
+		// matrix
 		int wAm = wps.length;
 		int matrix[][] = new int[wAm][wAm];
-		//initialise all values to infinity
-		for (int i=0;i<wAm;i++) {
-			for (int j=0;j<wAm;j++) {
+		// initialise all values to infinity
+		for (int i = 0; i < wAm; i++) {
+			for (int j = 0; j < wAm; j++) {
 				matrix[i][j] = inf;
 			}
 		}
-		
-		//get initial distances from source to wp_i
+
+		// get initial distances from source to wp_i
 		for (int i = 0; i < wAm; i++) {
 			matrix[i][0] = d[0][wps[i]];
 		}
-		
-		//construct the matrix by starting from i 1(as in minimum amount of waypoints to be visited)
-		for (int i=1;i<wAm;i++) {
-			for (int j=i;j<wAm;j++) {
-				for (int k = j-1; k >= i-1; k--) {
-					int toBeAdded = add(matrix[k][i-1], d[wps[k]][wps[j]]);//the "recurrence"
-					matrix[j][i] = Math.min(toBeAdded, matrix[j][i]) ;
+
+		// construct the matrix by starting from i 1(as in minimum amount of
+		// waypoints to be visited)
+		for (int i = 1; i < wAm; i++) {
+			for (int j = i; j < wAm; j++) {
+				for (int k = j - 1; k >= i - 1; k--) {
+					int toBeAdded = add(matrix[k][i - 1], d[wps[k]][wps[j]]);// the
+																				// "recurrence"
+					matrix[j][i] = Math.min(toBeAdded, matrix[j][i]);
 				}
 			}
 		}
-		
-		//minCost(c) implementation
+
+		// minCost(c) implementation
 		double leastFinalCost = inf;
 		int pCost = inf;
 		int visitingWaypoint = 0;
 		for (int i = 0; i < wAm; i++) {
-			double finalCost = (matrix[wAm-1][i] * Math.pow(0.9, i));
-			if (finalCost < leastFinalCost) {//equivalent to Math.min()
+			double finalCost = (matrix[wAm - 1][i] * Math.pow(0.9, i));
+			if (finalCost < leastFinalCost) {// equivalent to Math.min()
 				leastFinalCost = finalCost;
-				pCost = matrix[wAm-1][i];//get the pure cost
-				visitingWaypoint = i;//get the min visiting waypoint
+				pCost = matrix[wAm - 1][i];// get the pure cost
+				visitingWaypoint = i;// get the min visiting waypoint
 			}
 		}
 
-		 System.out.println("Least final cost is " + leastFinalCost + ", visiting " + visitingWaypoint
-		 + " waypoint(s) on a path with pure cost " + pCost);
+		System.out.println("Least final cost is " + leastFinalCost
+				+ ", visiting " + visitingWaypoint
+				+ " waypoint(s) on a path with pure cost " + pCost);
 	}
 }
