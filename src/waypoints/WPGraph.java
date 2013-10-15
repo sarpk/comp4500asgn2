@@ -160,7 +160,7 @@ public class WPGraph extends DGraphAdj<Vertex, WPEdge> {
 
 			if (w < destNo) {
 				countMinAm--;
-				System.out.println("w is " + w + " to dest " + destNo);
+				//System.out.println("w is " + w + " to dest " + destNo);
 				int rCost = leastCost3(this.getVertex(w), countMinAm);
 				int pathCost = add(rCost, d[w][destNo]);
 				// System.out.println("w is " + w + " adding " + pathCost +
@@ -177,9 +177,41 @@ public class WPGraph extends DGraphAdj<Vertex, WPEdge> {
 	/* Your dynamic programming solution to Question 2 */
 	public void SPWP() {
 
+		//initialise 2d array for waypoint source to minimum amount of waypoint matrix
+		int wAm = wps.length;
+		int destIndex = size()-1;
+		int matrix[][] = new int[wAm][wAm];
+		for (int i=0;i<wAm;i++) {
+			for (int j=0;j<wAm;j++) {
+				matrix[i][j] = inf;
+			}
+		}
+		
+		//get initial distances from source to wp_i
+		for (int i = 0; i < wAm; i++) {
+			matrix[i][0] = d[0][wps[i]];
+		}
+		printMatrix(matrix);
+		
+		for (int i=1;i<wAm;i++) {
+			for (int j=i;j<wAm;j++) {
+				System.out.println("for i " + i + " and j " + j);
+				//int toBeAdded = 0;
+				for (int k = j-1; k >= i-1; k--) {
+					System.out.println("k " +k + " to i-1 " + (i-1) + " is " + matrix[k][i-1] + " and i to end " + d[wps[k]][wps[i]] + " where wps[i] is " + wps[i] + " and [wps[k] is " + wps[k]);
+					int toBeAdded = 0;
+					toBeAdded = add(matrix[k][i-1], toBeAdded);
+					toBeAdded = add(d[wps[k]][wps[j]], toBeAdded);
+					matrix[j][i] = Math.min(toBeAdded, matrix[j][i]) ;
+				}
+				
+				printMatrix(matrix);
+			}
+		}
+		
 		int maxDInd = size() - 1;
 		int cost = inf;
-		int visited = 4;
+		int visited = 2;
 		for (int wayIndex = wps.length - 1; wayIndex >= 0; wayIndex--) {
 			int w1 = wps[wayIndex];
 			// for (int w1 : wps) {
@@ -199,8 +231,8 @@ public class WPGraph extends DGraphAdj<Vertex, WPEdge> {
 					}
 					if (tempVisited < 1) {
 						int dist = add(d[0][w2], add(d[w2][w1], d[w1][maxDInd]));
-						System.out.println("w2 is " + w2 + " to dest "
-								+ maxDInd + " with dist of " + dist);
+						//System.out.println("w2 is " + w2 + " to dest "
+							//	+ maxDInd + " with dist of " + dist);
 						minFoundCost = Math.min(minFoundCost, dist);
 
 					}
