@@ -209,6 +209,19 @@ public class WPGraph extends DGraphAdj<Vertex, WPEdge> {
 			}
 		}
 		
+		
+		double leastFinalCost = inf;
+		int pCost = inf;
+		for (int i = 0; i < wAm; i++) {
+			System.out.println(matrix[wAm-1][i]);
+			double finalCost = (matrix[wAm-1][i] * Math.pow(0.9, i));
+			if (finalCost < leastFinalCost) {//equivalent to Math.min()
+				leastFinalCost = finalCost;
+				pCost = matrix[wAm-1][i];
+			}
+			//leastFinalCost = Math.min(leastFinalCost, );
+		}
+		System.out.println(leastFinalCost + " with pure cost " + pCost);
 		int maxDInd = size() - 1;
 		int cost = inf;
 		int visited = 2;
